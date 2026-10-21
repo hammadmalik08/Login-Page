@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Best Friend Forever 💖</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    color: white;
+
+    background:
+        radial-gradient(circle at top, #713052, #3b182d 45%, #190d19);
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Floating Hearts */
+
+.hearts {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.heart {
+    position: absolute;
+    bottom: -50px;
+    animation: floatUp linear infinite;
+    opacity: .6;
+}
+
+@keyframes floatUp {
+
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: .7;
+    }
+
+    100% {
+        transform: translateY(-110vh) rotate(40deg);
+        opacity: 0;
+    }
+}
+
+/* Main */
+
+.app {
+    width: min(92vw, 520px);
+    height: 90vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+    z-index: 2;
+}
+
+/* Card */
+
+.card {
+    width: 100%;
+    min-height: 520px;
+
+    padding: 40px 25px;
+
+    border-radius: 30px;
+
+    border: 1px solid rgba(255,255,255,.3);
+
+    background: rgba(255,255,255,.08);
+
+    backdrop-filter: blur(15px);
+
+    box-shadow: 0 0 40px rgba(255,80,150,.2);
+
+    text-align: center;
+
+    display: none;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    animation: show .5s ease;
+}
+
+.card.active {
+    display: flex;
+}
+
+@keyframes show {
+
+    from {
+        opacity: 0;
+        transform: scale(.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Heart */
+
+.big-heart {
+    font-size: 80px;
+
+    margin-bottom: 25px;
+
+    animation: beat 1.2s infinite;
+
+    filter: drop-shadow(0 0 15px #ff5c9a);
+}
+
+@keyframes beat {
+
+    0%,100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+}
+
+/* Text */
+
+h1 {
+    font-size: clamp(30px, 7vw, 48px);
+    margin-bottom: 18px;
+}
+
+h2 {
+    font-size: clamp(26px, 6vw, 38px);
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: clamp(17px, 4vw, 21px);
+    line-height: 1.6;
+    color: #ffe5f0;
+}
+
+/* Buttons */
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+
+    width: 100%;
+
+    margin-top: 30px;
+
+    flex-wrap: wrap;
+}
+
+button {
+    border: none;
+
+    padding: 15px 30px;
+
+    min-width: 145px;
+
+    border-radius: 50px;
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    background: linear-gradient(
+        100deg,
+        #ff5c83,
+        #f56ac6
+    );
+
+    box-shadow:
+        0 8px 25px rgba(255,70,140,.3);
+
+    transition: .25s;
+}
+
+button:hover {
+    transform: translateY(-3px) scale(1.03);
+}
+
+button:active {
+    transform: scale(.95);
+}
+
+.secondary {
+    background: rgba(255,255,255,.12);
+}
+
+/* Progress */
+
+.progress {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 35px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.3);
+}
+
+.dot.active {
+    width: 40px;
+
+    border-radius: 20px;
+
+    background: #ff6e9c;
+
+    box-shadow: 0 0 12px #ff6e9c;
+}
+
+/* Loading */
+
+.loading {
+    width: 90%;
+
+    height: 10px;
+
+    margin-top: 25px;
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,.15);
+
+    overflow: hidden;
+}
+
+.loading-bar {
+    width: 0%;
+
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff668e,
+            #c98cff
+        );
+
+    transition: width .2s;
+}
+
+.percent {
+    margin-top: 10px;
+
+    font-size: 18px;
+}
+
+/* Final Screen */
+
+.final {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 10;
+
+    display: none;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    padding: 25px;
+
+    background:
+        radial-gradient(
+            circle,
+            #7c3158,
+            #260f22
+        );
+}
+
+.final.show {
+    display: flex;
+
+    animation: show .7s ease;
+}
+
+.final-box {
+    max-width: 650px;
+}
+
+.final h1 {
+    color: #ff9bc0;
+
+    text-shadow:
+        0 0 20px rgba(255,100,160,.6);
+}
+
+.final p {
+    margin: 15px auto;
+}
+
+.small {
+    margin-top: 20px;
+
+    font-size: 14px;
+
+    color: #e9b8cc;
+}
+
+/* Confetti */
+
+.confetti {
+    position: fixed;
+
+    top: -30px;
+
+    animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+
+    to {
+        transform:
+            translateY(110vh)
+            rotate(600deg);
+
+        opacity: 0;
+    }
+}
+
+/* Mobile */
+
+@media(max-width:600px) {
+
+    .app {
+        width: 94vw;
+        height: 92vh;
+    }
+
+    .card {
+        height: 82vh;
+        min-height: 0;
+
+        padding: 30px 20px;
+
+        border-radius: 25px;
+    }
+
+    .big-heart {
+        font-size: 65px;
+    }
+
+    button {
+        width: 100%;
+        max-width: 330px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+
+<!-- Floating Hearts -->
+
+<div class="hearts" id="hearts"></div>
+
+
+<div class="app">
+
+
+<!-- SCREEN 1 -->
+
+<section class="card active" id="screen1">
+
+    <div class="big-heart">
+        💖
+    </div>
+
+    <h1>
+        Best Friend Check! 🫶
+    </h1>
+
+    <p>
+        Kuch special sa bana raha tha...<br>
+        Aur socha sab se pehle apne best friend ko dikhana chahiye. ❤️
+    </p>
+
+    <div class="buttons">
+
+        <button onclick="nextScreen(2)">
+            Let's Go 💗
+        </button>
+
+    </div>
+
+    <div class="progress">
+
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+
+    </div>
+
+</section>
+
+
+
+<!-- SCREEN 2 -->
+
+<section class="card" id="screen2">
+
+    <div class="big-heart">
+        ☕
+    </div>
+
+    <h2>
+        Best Friend Hangout?
+    </h2>
+
+    <p>
+        Ek coffee/chai aur bohat sari<br>
+        bakwas baatein? 😂❤️
+    </p>
+
+    <div class="buttons">
+
+        <button onclick="nextScreen(3)">
+            YES 😎
+        </button>
+
+        <button
+            class="secondary"
+            onclick="nextScreen(3)"
+        >
+            OF COURSE 😂
+        </button>
+
+    </div>
+
+    <div class="progress">
+
+        <span class="dot"></span>
+        <span class="dot active"></span>
+        <span class="dot"></span>
+
+    </div>
+
+</section>
+
+
+
+<!-- SCREEN 3 -->
+
+<section class="card" id="screen3">
+
+    <div class="big-heart">
+        ❤️
+    </div>
+
+    <h2>
+        Friendship Result
+    </h2>
+
+    <p>
+        Scanning our friendship... 🔍
+    </p>
+
+    <div class="loading">
+
+        <div
+            class="loading-bar"
+            id="loadingBar">
+        </div>
+
+    </div>
+
+    <div
+        class="percent"
+        id="percent">
+        0%
+    </div>
+
+    <div class="buttons">
+
+        <button onclick="showFinal()">
+            Found 1 Best Friend ❤️
+        </button>
+
+    </div>
+
+    <div class="progress">
+
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot active"></span>
+
+    </div>
+
+</section>
+
+</div>
+
+
+
+<!-- FINAL SCREEN -->
+
+<div
+    class="final"
+    id="final">
+
+    <div class="final-box">
+
+        <h1>
+            Yayyyyyyyyyy! 🫶
+        </h1>
+
+        <p>
+            <strong>
+                Officially...
+            </strong>
+        </p>
+
+        <p>
+            Ab tum meri favourite notification ho. ❤️
+        </p>
+
+        <p>
+            <strong>
+                I Promise...
+            </strong>
+        </p>
+
+        <p>
+            Har mushkil mein tumhara saath dunga,<br>
+
+            aur har smile ki wajah banne ki<br>
+            puri koshish karunga. 🤝💖
+        </p>
+
+        <div class="big-heart">
+            👫
+        </div>
+
+        <button onclick="location.reload()">
+            Our Friendship Story 💕
+        </button>
+
+        <div class="small">
+            Made with ❤️ &lt;/&gt; for my Best Friend
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+/* =========================
+   FLOATING HEARTS
+========================= */
+
+const heartsBox =
+    document.getElementById("hearts");
+
+const heartTypes = [
+    "❤️",
+    "💗",
+    "💖",
+    "💕",
+    "✨"
+];
+
+
+for(let i = 0; i < 35; i++){
+
+    const heart =
+        document.createElement("span");
+
+    heart.className = "heart";
+
+    heart.textContent =
+        heartTypes[
+            Math.floor(
+                Math.random() *
+                heartTypes.length
+            )
+        ];
+
+    heart.style.left =
+        Math.random() * 100 + "%";
+
+    heart.style.fontSize =
+        (14 + Math.random() * 24) + "px";
+
+    heart.style.animationDuration =
+        (5 + Math.random() * 8) + "s";
+
+    heart.style.animationDelay =
+        Math.random() * 7 + "s";
+
+    heartsBox.appendChild(heart);
+}
+
+
+
+/* =========================
+   CHANGE SCREEN
+========================= */
+
+function nextScreen(number){
+
+    document
+        .querySelectorAll(".card")
+        .forEach(card => {
+
+            card.classList.remove("active");
+
+        });
+
+
+    document
+        .getElementById(
+            "screen" + number
+        )
+        .classList.add("active");
+
+
+    if(number === 3){
+
+        startLoading();
+
+    }
+
+}
+
+
+
+/* =========================
+   LOADING ANIMATION
+========================= */
+
+function startLoading(){
+
+    let progress = 0;
+
+    const bar =
+        document.getElementById(
+            "loadingBar"
+        );
+
+    const percent =
+        document.getElementById(
+            "percent"
+        );
+
+
+    const timer =
+        setInterval(() => {
+
+            progress++;
+
+            bar.style.width =
+                progress + "%";
+
+            percent.textContent =
+                progress + "%";
+
+
+            if(progress >= 100){
+
+                clearInterval(timer);
+
+            }
+
+        }, 25);
+
+}
+
+
+
+/* =========================
+   FINAL SCREEN
+========================= */
+
+function showFinal(){
+
+    document
+        .getElementById("final")
+        .classList.add("show");
+
+
+    const pieces = [
+        "💖",
+        "❤️",
+        "💕",
+        "✨",
+        "🎉",
+        "💗"
+    ];
+
+
+    for(let i = 0; i < 70; i++){
+
+        const item =
+            document.createElement("span");
+
+        item.className =
+            "confetti";
+
+        item.textContent =
+            pieces[
+                Math.floor(
+                    Math.random() *
+                    pieces.length
+                )
+            ];
+
+
+        item.style.left =
+            Math.random() * 100 + "vw";
+
+        item.style.animationDelay =
+            Math.random() * 1.5 + "s";
+
+        item.style.fontSize =
+            (14 + Math.random() * 18) + "px";
+
+
+        document.body.appendChild(item);
+
+
+        setTimeout(() => {
+
+            item.remove();
+
+        }, 5000);
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
